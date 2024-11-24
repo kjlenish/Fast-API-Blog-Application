@@ -22,3 +22,12 @@ class Post(SQLModel, table=True):
     
     def update_timestamp(self):
         self.updated_at = datetime.utcnow()
+
+
+from app.models.user import User
+from app.models.blog import Post
+from app.models.comment import Comment
+
+User.update_forward_refs()
+Post.update_forward_refs()
+Comment.update_forward_refs()

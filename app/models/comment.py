@@ -20,9 +20,18 @@ class Comment(SQLModel, table=True):
     user: "User" = Relationship(back_populates="comments")
     post: "Post" = Relationship(back_populates="comments")
     
-    parent: Union["Comment", None] = Relationship(back_populates="replies", sa_relationship_kwargs={"remote_side": "Comment.id"}, cascade_delete=True)
-    replies: list["Comment"] = Relationship(back_populates="parent")
+    parent: Union["Comment", None] = Relationship(back_populates="replies", sa_relationship_kwargs={"remote_side": "Comment.id"})
+    replies: list["Comment"] = Relationship(back_populates="parent", cascade_delete=True)
 
     
     def update_timestamp(self):
         self.updated_at = datetime.utcnow()
+
+
+from app.models.user import User
+from app.models.blog import Post
+from app.models.comment import Comment
+
+User.update_forward_refs()
+Post.update_forward_refs()
+Comment.update_forward_refs()
