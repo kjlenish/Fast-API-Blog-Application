@@ -1,6 +1,6 @@
 import logging
 from fastapi import FastAPI
-from app.database import create_db_and_tables
+from app.dependencies.database import create_db_and_tables
 from app.api import users
 
 description = """

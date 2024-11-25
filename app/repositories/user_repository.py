@@ -21,6 +21,10 @@ class UserRepository:
     def get_by_id(self, id):
         return self.session.get(User, id)
     
+    def get_by_credential(self, user_credential):
+        query = select(User).filter(User.username==user_credential or User.email==user_credential)
+        return self.session.exec(query).first()
+    
     def check_username_exists(self, username):
         query = select(User).where(User.username==username)
         user = self.session.exec(query).first()

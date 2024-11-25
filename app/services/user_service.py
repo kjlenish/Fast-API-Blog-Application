@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlmodel import Session
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
-from app.repositories.user_repositories import UserRepository
+from app.repositories.user_repository import UserRepository
 from app.core.security import hash_password
 
 
