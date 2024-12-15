@@ -1,4 +1,4 @@
-from sqlmodel import Session, select
+from sqlmodel import Session, select, or_
 from app.models.user import User
 from app.schemas.user import UserCreate
 
@@ -22,7 +22,7 @@ class UserRepository:
         return self.session.get(User, id)
     
     def get_by_credential(self, user_credential):
-        query = select(User).filter(User.username==user_credential or User.email==user_credential)
+        query = select(User).where(or_(User.username==user_credential, User.email==user_credential))
         return self.session.exec(query).first()
     
     def check_username_exists(self, username):

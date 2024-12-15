@@ -1,12 +1,11 @@
 from fastapi import Depends
-from typing import Annotated, Union
-
-from app.dependencies.database import SessionDep
-from app.core.security import decode_access_token
-from app.schemas.auth import TokenData, TokenResponse
-from app.repositories.user_repository import UserRepository
+from typing import Annotated
 from app.core.exceptions import credentials_exception
+from app.core.security import decode_access_token
+from app.dependencies.database import SessionDep
 from app.models.user import User
+from app.repositories.user_repository import UserRepository
+from app.schemas.auth import TokenData
 
 
 async def get_current_user(session: SessionDep, token_data: Annotated[TokenData, Depends(decode_access_token)]):
@@ -17,3 +16,6 @@ async def get_current_user(session: SessionDep, token_data: Annotated[TokenData,
         raise credentials_exception
     
     return user
+
+
+UserDep = Annotated[User, Depends(get_current_user)]
