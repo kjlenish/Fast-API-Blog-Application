@@ -23,7 +23,7 @@ class UserService:
 
         return self.user_repo.create(new_user)
     
-    def get_users(self, skip: int = 0, limit: int = 10, id: int = None):
+    def get_user(self, skip: int = 0, limit: int = 10, id: int = None):
         if id:
             user = self.user_repo.get_by_id(id)
             if user is None:
@@ -39,11 +39,11 @@ class UserService:
         if not user:
             raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "User not found")
         
-        if user.username != updated_user.username:
+        if updated_user.username and user.username != updated_user.username:
             if self.user_repo.check_username_exists(user.username):
                 raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Username already exists")
         
-        if user.email != updated_user.email:
+        if updated_user.email and user.email != updated_user.email:
             if self.user_repo.check_email_exists(user.email):
                 raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Email already exists")
         

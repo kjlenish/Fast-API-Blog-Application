@@ -6,7 +6,6 @@ from app.schemas.user import UserCreate
 class UserRepository:
     def __init__(self, session: Session):
         self.session = session
-        print("Created")
 
     def create(self, user: User):
         self.session.add(user)

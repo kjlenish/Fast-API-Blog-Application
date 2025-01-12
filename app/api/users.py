@@ -14,7 +14,6 @@ router = APIRouter(
 
 @router.post("/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def create_user(session: SessionDep, user: UserCreate):
-    print(user)
     user_service = UserService(session)
     new_user = user_service.create_user(user)
     return new_user
@@ -28,14 +27,14 @@ async def get_current_user(current_user: UserDep):
 @router.get("/all", response_model=Union[List[UserResponse], Any], status_code=status.HTTP_200_OK)
 async def get_all_users(session: SessionDep, current_user: UserDep, params: Annotated[QueryParams, Depends()]):
     user_service = UserService(session)
-    users = user_service.get_users(params.skip, params.limit)
+    users = user_service.get_user(params.skip, params.limit)
     return users
 
 
 @router.get("/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 async def get_user(session: SessionDep, current_user: UserDep, user_id: int):
     user_service = UserService(session)
-    user = user_service.get_users(id = user_id)
+    user = user_service.get_user(id = user_id)
     return user
 
 
