@@ -14,18 +14,18 @@ class BlogRepository:
         return post
     
     def get_all(self, skip, limit, search_pattern, author):
+        query = select(Post)
         if search_pattern:
-            query = select(Post).where(or_(Post.title.ilike(search_pattern)), (Post.content.ilike(
-            search_pattern)), (Post.author.first_name.ilike(search_pattern)), (
-                Post.author.last_name.ilike(search_pattern)))
-        elif author:
-            query = select(Post).where(Post.author==author)
-        else:
-            query = select(Post)
+            query = query.where(or_(Post.title.ilike(search_pattern)), (Post.content.ilike(
+                search_pattern)))
+        
+        if author:
+            query = query.where(Post.author==author)
+        
         return self.session.exec(query.offset(skip).limit(limit)).all()
     
     def get_by_id(self, id):
-        self.session.get(Post, id)
+        return self.session.get(Post, id)
     
     def update(self, post: Post, data: PostUpdate):
         for key, value in data.dict(exclude_unset=True).items():

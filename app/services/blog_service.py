@@ -11,6 +11,11 @@ class BlogService:
         self.blog_repo = BlogRepository(session)
     
     def create_post(self, post: PostCreate):
+        user_repo = UserRepository(self.blog_repo.session)
+        author = user_repo.get_by_id(post.author_id)
+        if author is None:
+            raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Author not found")
+        
         new_post = Post(**post.model_dump())
         return self.blog_repo.create(new_post)
     
@@ -28,7 +33,7 @@ class BlogService:
                 q = f"%{q}%"
             
             if author_id:
-                user_repo = UserRepository(self.session)
+                user_repo = UserRepository(self.blog_repo.session)
                 author = user_repo.get_by_id(author_id)
             else:
                 author = None

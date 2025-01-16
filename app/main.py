@@ -1,7 +1,7 @@
 import logging
 from fastapi import FastAPI
 from app.dependencies.database import create_db_and_tables
-from app.api import auth, users
+from app.api import auth, blogs, users
 
 description = """
 Blog API helps user to create, read, update and delete (CRUD) their blogs. The User needs to initially register using an unique email id to access the Blogs, then they can perform CRUD operations on blogs, like or unlike blogs and even add comments.
@@ -64,3 +64,4 @@ def on_startup():
 
 app.include_router(auth.router)
 app.include_router(users.router)
+app.include_router(blogs.router)

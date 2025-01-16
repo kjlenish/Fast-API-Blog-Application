@@ -23,3 +23,10 @@ class PostResponse(PostBase):
     id: int
     created_at: datetime
     updated_at: datetime
+
+
+class QueryParams(BaseModel):
+    skip: int = 0
+    limit: int = 10
+    q: Union[str, None] = None
+    author_id: Union[int, None] = None

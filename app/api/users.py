@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
-from typing import Annotated, List, Any, Union
-from app.dependencies.database import SessionDep
+from typing import Annotated, Any, List, Union
 from app.dependencies.auth import UserDep
+from app.dependencies.database import SessionDep
 from app.services.user_service import UserService
 from app.schemas.user import UserCreate, UserUpdate, UserResponse, QueryParams
 
