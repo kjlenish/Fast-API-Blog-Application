@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import List, Union
 from sqlmodel import Field, SQLModel, Relationship
 from pydantic import EmailStr
 from datetime import datetime
@@ -20,6 +20,8 @@ class User(SQLModel, table=True):
     
     posts: List["Post"] = Relationship(back_populates="author", cascade_delete=True)
     comments: List["Comment"] = Relationship(back_populates="user", cascade_delete=True)
+    likes: List["Like"] = Relationship(back_populates="user", cascade_delete=True)
+
     
     
     def update_timestamp(self):
@@ -29,7 +31,9 @@ class User(SQLModel, table=True):
 from app.models.user import User
 from app.models.blog import Post
 from app.models.comment import Comment
+from app.models.like import Like
 
 User.update_forward_refs()
 Post.update_forward_refs()
 Comment.update_forward_refs()
+Like.update_forward_refs()

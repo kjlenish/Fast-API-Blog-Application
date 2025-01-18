@@ -10,6 +10,7 @@ from app.core.config import settings
 from app.models.user import User
 from app.models.blog import Post
 from app.models.comment import Comment
+from app.models.like import Like
 
 
 # this is the Alembic Config object, which provides
