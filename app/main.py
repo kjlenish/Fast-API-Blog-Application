@@ -1,7 +1,8 @@
 import logging
-from fastapi import FastAPI
-from app.dependencies.database import create_db_and_tables
+from fastapi import FastAPI, HTTPException
 from app.api import auth, blogs, comments, likes, users
+from app.handlers.exception_handlers import custom_http_exception_handler
+from app.dependencies.database import create_db_and_tables
 
 description = """
 Blog API helps user to create, read, update and delete (CRUD) their blogs. The User needs to initially register using an unique email id to access the Blogs, then they can perform CRUD operations on blogs, like or unlike blogs and even add comments.
@@ -51,6 +52,9 @@ app = FastAPI(
     version="0.0.1",
     openapi_tags=tags_metadata
 )
+
+
+app.add_exception_handler(HTTPException, custom_http_exception_handler)
 
 
 @app.on_event("startup")

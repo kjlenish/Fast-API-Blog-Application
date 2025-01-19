@@ -48,7 +48,7 @@ class UserService:
                 raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Email already exists")
         
         user_data = updated_user.model_dump(exclude_unset=True) 
-        extra_data = {}       
+        extra_data = {}
         if "password" in user_data:
             extra_data["password"] = hash_password(user_data["password"])
             updated_user.__dict__.update(extra_data)

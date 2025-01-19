@@ -5,7 +5,6 @@ from typing import Union
 class PostBase(BaseModel):
     title: str
     content: str
-    author_id: int
     published: bool
 
 
@@ -21,8 +20,12 @@ class PostUpdate(BaseModel):
 
 class PostResponse(PostBase):
     id: int
+    author_id: int
     created_at: datetime
     updated_at: datetime
+    
+    class Config:
+        from_attributes = True
 
 
 class QueryParams(BaseModel):

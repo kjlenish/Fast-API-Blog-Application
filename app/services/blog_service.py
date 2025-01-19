@@ -10,13 +10,16 @@ class BlogService:
     def __init__(self, session: Session):
         self.blog_repo = BlogRepository(session)
     
-    def create_post(self, post: PostCreate):
+    def create_post(self, author_id: int, post: PostCreate):
         user_repo = UserRepository(self.blog_repo.session)
-        author = user_repo.get_by_id(post.author_id)
+        author = user_repo.get_by_id(author_id)
         if author is None:
             raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Author not found")
         
-        new_post = Post(**post.model_dump())
+        post_dict = post.model_dump()
+        post_dict["author_id"] = author_id
+        
+        new_post = Post(**post_dict)
         return self.blog_repo.create(new_post)
     
     def get_post(self, skip: int = 0, limit: int = 10, q: str = None, author_id: int = None, id: int = None):
